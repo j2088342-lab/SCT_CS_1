@@ -1,0 +1,52 @@
+def caesar_cipher(text, shift, mode='encrypt'):
+    result = ""
+    
+    # If we are decrypting, we simply reverse the shift
+    if mode == 'decrypt':
+        shift = -shift
+        
+    for char in text:
+        # Process uppercase letters
+        if char.isupper():
+            # 'A' is ASCII 65
+            result += chr((ord(char) - 65 + shift) % 26 + 65)
+        # Process lowercase letters
+        elif char.islower():
+            # 'a' is ASCII 97
+            result += chr((ord(char) - 97 + shift) % 26 + 97)
+        else:
+            # Leave spaces, punctuation, and numbers exactly as they are
+            result += char
+            
+    return result
+
+def main():
+    print("=== Caesar Cipher Program ===")
+    
+    while True:
+        choice = input("\nDo you want to (E)ncrypt, (D)ecrypt, or (Q)uit? ").strip().upper()
+        
+        if choice == 'Q':
+            print("Exiting program. Goodbye!")
+            break
+        elif choice not in ['E', 'D']:
+            print("Invalid option. Please enter E, D, or Q.")
+            continue
+            
+        message = input("Enter your message: ")
+        
+        try:
+            shift = int(input("Enter shift value (an integer): "))
+        except ValueError:
+            print("Error: Shift value must be a whole number.")
+            continue
+            
+        if choice == 'E':
+            encrypted = caesar_cipher(message, shift, mode='encrypt')
+            print(f"Encrypted Text: {encrypted}")
+        elif choice == 'D':
+            decrypted = caesar_cipher(message, shift, mode='decrypt')
+            print(f"Decrypted Text: {decrypted}")
+
+if __name__ == "__main__":
+    main()
